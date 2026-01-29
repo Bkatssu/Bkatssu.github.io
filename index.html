@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #e91e63;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .heart {
+            text-align: center;
+            font-size: 3em;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        .reasons-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 30px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 2px solid #ff69b4;
+        }
+
+        .reason {
+            padding: 10px;
+            margin: 10px 0;
+            background: linear-gradient(90deg, #ffe5ec 0%, #fff 100%);
+            border-left: 4px solid #e91e63;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .reason:hover {
+            transform: translateX(10px);
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+            height: 100px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            position: absolute;
+        }
+
+        .ring-container {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .ring {
+            font-size: 5em;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .celebration {
+            font-size: 2em;
+            color: #e91e63;
+            margin-top: 20px;
+            animation: bounce 0.5s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1>Can I Have the Honor of You Being My Valentine?</h1>
+        
+        <div class="reasons-container" id="reasonsContainer">
+            <!-- Las razones se generarán con JavaScript -->
+        </div>
+
+        <div class="buttons-container" id="buttonsContainer">
+            <button id="yesBtn" onclick="showRing()">YES! 💕</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+
+        <div class="ring-container" id="ringContainer">
+            <div class="ring">💍</div>
+            <div class="celebration">¡SÍ! ¡Serás mi San Valentín! 🎉💖</div>
+            <div class="celebration">Te amo con todo mi corazón ❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // 200 razones por las que la amo
+        const reasons = [
+            "Tu sonrisa ilumina mi mundo entero",
+            "Eres la persona más hermosa que he conocido",
+            "Tu risa es mi canción favorita",
+            "Me haces sentir completa",
+            "Eres mi mejor amiga y mi amor",
+            "Tu inteligencia me fascina",
+            "Amo la forma en que me miras",
+            "Tu bondad no tiene límites",
+            "Me inspiras a ser mejor persona cada día",
+            "Amo tus abrazos",
+            "Tu presencia me da paz",
+            "Eres mi lugar favorito",
+            "Amo tu sentido del humor",
+            "Me entiendes como nadie más",
+            "Tu voz es música para mis oídos",
+            "Amo cuando me cuentas tus sueños",
+            "Tu pasión por la vida es contagiosa",
+            "Eres mi persona favorita en el mundo",
+            "Amo la forma en que caminas",
+            "Tu corazón es puro y hermoso",
+            "Me haces reír hasta que duele",
+            "Amo tu forma de pensar",
+            "Eres mi inspiración diaria",
+            "Tu belleza interior supera la exterior",
+            "Amo cuando bailas",
+            "Tu determinación me impresiona",
+            "Eres mi hogar",
+            "Amo tus ojos",
+            "Me haces sentir amado",
+            "Tu creatividad no tiene fin",
+            "Amo tu cabello",
+            "Eres mi mejor aventura",
+            "Tu valentía me motiva",
+            "Amo cuando cantas",
+            "Eres mi razón de sonreír",
+            "Tu compasión me conmueve",
+            "Amo tus manos",
+            "Eres mi sueño hecho realidad",
+            "Tu generosidad no conoce límites",
+            "Amo cuando te sonrojas",
+            "Eres mi luz en la oscuridad",
+            "Tu autenticidad es refrescante",
+            "Amo tu forma de ser",
+            "Eres mi confidente",
+            "Tu paciencia conmigo es infinita",
+            "Amo cuando me abrazas por sorpresa",
+            "Eres mi complemento perfecto",
+            "Tu optimismo es contagioso",
+            "Amo tu perfume",
+            "Eres mi razón de vivir",
+            "Tu lealtad es inquebrantable",
+            "Amo cuando me besas",
+            "Eres mi todo",
+            "Tu honestidad es admirable",
+            "Amo tu forma de reír",
+            "Eres mi alma gemela",
+            "Tu respeto me hace sentir valorado",
+            "Amo cuando cocinas para mí",
+            "Eres mi felicidad",
+            "Tu apoyo incondicional significa todo",
+            "Amo tus consejos",
+            "Eres mi mejor decisión",
+            "Tu empatía te hace especial",
+            "Amo cuando me miras a los ojos",
+            "Eres mi razón de despertar feliz",
+            "Tu cariño me llena",
+            "Amo tu estilo",
+            "Eres mi persona favorita para hablar",
+            "Tu energía positiva es increíble",
+            "Amo cuando me sorprendes",
+            "Eres mi motivación",
+            "Tu dulzura me derrite",
+            "Amo tus abrazos de oso",
+            "Eres mi cómplice",
+            "Tu espontaneidad me encanta",
+            "Amo cuando me haces sentir especial",
+            "Eres mi refugio",
+            "Tu ternura es única",
+            "Amo cuando compartes tus secretos conmigo",
+            "Eres mi persona favorita para viajar",
+            "Tu fortaleza me asombra",
+            "Amo tu forma de vestir",
+            "Eres mi compañera perfecta",
+            "Tu sensibilidad es hermosa",
+            "Amo cuando me cuidas",
+            "Eres mi amor eterno",
+            "Tu carácter me fascina",
+            "Amo cuando me escuchas",
+            "Eres mi mejor recuerdo",
+            "Tu presencia es un regalo",
+            "Amo tu forma de amar",
+            "Eres mi razón de ser mejor",
+            "Tu mirada me hipnotiza",
+            "Amo cuando me das la mano",
+            "Eres mi tesoro",
+            "Tu personalidad es magnética",
+            "Amo tus besos",
+            "Eres mi vida",
+            "Tu amor me transforma",
+            "Amo cuando me dices que me amas",
+            "Eres mi destino",
+            "Tu compañía es lo mejor",
+            "Amo tu forma de pensar en los demás",
+            "Eres mi prioridad",
+            "Tu sonrisa es mi debilidad",
+            "Amo cuando me abrazas fuerte",
+            "Eres mi razón de luchar",
+            "Tu presencia me calma",
+            "Amo tu esencia",
+            "Eres mi mundo entero",
+            "Tu amor es mi fortaleza",
+            "Amo cuando compartimos momentos juntos",
+            "Eres mi felicidad diaria",
+            "Tu risa es contagiosa",
+            "Amo tu forma de cuidarme",
+            "Eres mi mejor compañía",
+            "Tu amor me hace sentir invencible",
+            "Amo cuando me sorprendes con detalles",
+            "Eres mi persona favorita para todo",
+            "Tu cariño es sincero",
+            "Amo tu forma de ser única",
+            "Eres mi mayor bendición",
+            "Tu amor me completa",
+            "Amo cuando me haces reír",
+            "Eres mi razón de ser feliz",
+            "Tu belleza me deja sin aliento",
+            "Amo cuando estamos juntos",
+            "Eres mi amor verdadero",
+            "Tu corazón es noble",
+            "Amo tu forma de expresarte",
+            "Eres mi mejor elección",
+            "Tu amor me hace mejor persona",
+            "Amo cuando me apoyas",
+            "Eres mi razón de sonreír cada día",
+            "Tu presencia es mágica",
+            "Amo tu forma de ser conmigo",
+            "Eres mi todo en esta vida",
+            "Tu amor es puro",
+            "Amo cuando compartimos sueños",
+            "Eres mi persona favorita en el universo",
+            "Tu cariño me hace sentir especial",
+            "Amo tu forma de amarme",
+            "Eres mi razón de existir",
+            "Tu amor me da vida",
+            "Amo cuando me miras con amor",
+            "Eres mi mejor tesoro",
+            "Tu presencia es mi paz",
+            "Amo tu forma de ser tan especial",
+            "Eres mi amor infinito",
+            "Tu sonrisa es mi felicidad",
+            "Amo cuando estamos abrazados",
+            "Eres mi razón de todo",
+            "Tu amor es mi motor",
+            "Amo tu forma de hacerme sentir",
+            "Eres mi persona favorita para siempre",
+            "Tu cariño es mi refugio",
+            "Amo cuando me dices cosas bonitas",
+            "Eres mi amor para toda la vida",
+            "Tu presencia ilumina mi existencia",
+            "Amo tu forma de ser tan auténtica",
+            "Eres mi mejor regalo",
+            "Tu amor me hace sentir completo",
+            "Amo cuando compartimos momentos especiales",
+            "Eres mi razón de amar la vida",
+            "Tu sonrisa es mi luz",
+            "Amo tu forma de ser tan hermosa",
+            "Eres mi amor eterno y verdadero",
+            "Tu presencia es mi mayor alegría",
+            "Amo cuando me haces sentir amado",
+            "Eres mi persona favorita en todo momento",
+            "Tu amor es mi razón de vivir",
+            "Amo tu forma de ser tan especial conmigo",
+            "Eres mi todo, mi vida, mi amor",
+            "Tu cariño me hace la persona más feliz",
+            "Amo cuando estamos juntos para siempre",
+            "Eres mi amor incondicional",
+            "Tu presencia es mi mayor tesoro",
+            "Amo tu forma de amarme tanto",
+            "Eres mi razón de ser yo mismo",
+            "Tu amor me hace sentir único",
+            "Amo cuando compartimos nuestra vida",
+            "Eres mi persona favorita en el mundo entero",
+            "Tu sonrisa es mi razón de despertar",
+            "Amo tu forma de ser tan maravillosa",
+            "Eres mi amor, mi vida, mi todo",
+            "Tu presencia es mi mayor felicidad",
+            "Amo cuando me haces sentir especial cada día",
+            "Eres mi razón de creer en el amor verdadero",
+            "Tu amor es lo mejor que me ha pasado",
+            "Amo tu forma de ser tan perfecta para mí",
+            "Eres mi persona favorita, hoy y siempre",
+            "Eres la luz que ilumina todos mis días",
+            "En tus brazos encuentro mi refugio perfecto",
+            "Tu amor me hace sentir invencible cada mañana",
+            "Admiro tu fuerza y tu forma de enfrentar la vida",
+            "Contigo cada pequeño momento se vuelve mágico",
+            "Tu voz al despertar es mi sonido favorito",
+            "Eres la razón por la que creo en los finales felices",
+            "Tu forma de quererme me hace sentir el hombre más afortunado",
+            "Cuando te veo sonreír, mi corazón late más fuerte",
+            "Eres mi paz en medio del caos",
+            "Amo cómo cuidas los detalles más pequeños",
+            "Tu cariño me reconforta incluso en los días grises",
+            "Eres la mejor parte de mi historia",
+            "Contigo el tiempo pasa volando y aún así quiero más",
+            "Tu mirada dice más que mil palabras",
+            "Amo cuando te emocionas contando algo que te apasiona",
+            "Eres mi hogar, no importa dónde estemos",
+            "Tu ternura me derrite cada vez que me tocas",
+            "Gracias por elegirme todos los días",
+            "Eres la mujer de mis sueños y mi realidad al mismo tiempo",
+            "Tu risa ilumina hasta el día más oscuro",
+            "Amo cómo me haces mejor versión de mí mismo",
+            "Contigo todo es más fácil y más bonito",
+            "Eres mi musa, mi amor y mi mejor amiga",
+            "Tu amor me da alas para volar más alto",
+            "Cuando estás cerca, el mundo se detiene",
+            "Eres mi debilidad y mi mayor fortaleza a la vez",
+            "Amo despertar sabiendo que eres mía",
+            "Tu esencia me enamora más cada día",
+            "Eres el motivo de mis sonrisas más sinceras",
+            "Contigo he encontrado lo que ni sabía que buscaba",
+            "Tu corazón late en sintonía con el mío",
+            "Amo cuando me tomas de la mano sin razón",
+            "Eres mi aventura favorita de toda la vida",
+            "Tu forma de ser tan genuina me fascina",
+            "Gracias por llenar mi vida de colores",
+            "Eres perfecta en tus imperfecciones",
+            "Amo cómo me miras cuando crees que no me doy cuenta",
+            "Contigo cada día es San Valentín",
+            "Tu amor es mi refugio y mi inspiración",
+            "Eres la persona con quien quiero envejecer",
+            "Amo tu forma de hacerme sentir único",
+            "Tu sonrisa es el mejor comienzo para cualquier día",
+            "Eres mi constante en un mundo que cambia",
+            "Contigo el amor se siente real y eterno",
+            "Tu cariño me hace creer en lo imposible",
+            "Eres mi todo y un poco más",
+            "Porque contigo quiero pasar el resto de mi vida ❤️",
+            "Porque a tu lado soy la versión más feliz de mí ❤️"
+        
+            
+        ];
+
+        // Generar las razones
+        const container = document.getElementById('reasonsContainer');
+        reasons.forEach((reason, index) => {
+            const div = document.createElement('div');
+            div.className = 'reason';
+            div.innerHTML = `<strong>${index + 1}.</strong> ${reason}`;
+            container.appendChild(div);
+        });
+
+        // Función para mover el botón "No"
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const container = document.getElementById('buttonsContainer');
+            
+            const maxX = container.offsetWidth - noBtn.offsetWidth;
+            const maxY = container.offsetHeight - noBtn.offsetHeight;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            return false;
+        }
+
+        // Función para mostrar el anillo
+        function showRing() {
+            document.getElementById('buttonsContainer').classList.add('hidden');
+            document.getElementById('ringContainer').style.display = 'block';
+            
+            // Crear corazones cayendo
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createHeart(), i * 100);
+            }
+        }
+
+        // Crear corazones animados
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = '-50px';
+            heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+            heart.style.opacity = Math.random();
+            heart.style.zIndex = '1000';
+            heart.style.pointerEvents = 'none';
+            
+            document.body.appendChild(heart);
+            
+            let pos = -50;
+            const interval = setInterval(() => {
+                if (pos >= window.innerHeight) {
+                    clearInterval(interval);
+                    heart.remove();
+                } else {
+                    pos += 5;
+                    heart.style.top = pos + 'px';
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
